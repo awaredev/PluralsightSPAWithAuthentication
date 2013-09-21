@@ -1,0 +1,5 @@
+<Modules>
+  <Module PersistentId="6B1E172B-2047-410C-8C0F-A5E3EF44435C" ModuleId="SPAJumpStart" />
+  <Module PersistentId="3F3211F3-A803-418F-AA9B-C201BF61CAFB" ModuleId="AuthApplication" />
+  <Module PersistentId="A51D692D-C063-4C45-A5C2-6FB8278EA5EA" ModuleId="MVCAuthAPI" />
+</Modules>
