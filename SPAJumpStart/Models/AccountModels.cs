@@ -6,12 +6,12 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
-namespace AuthApplication.Models
+namespace CodeCamper.Models
 {
     public class UsersContext : DbContext
     {
         public UsersContext()
-            : base("DefaultConnection")
+            : base(nameOrConnectionString: "CodeCamper") //Make sure that we use the same DB
         {
         }
 
@@ -72,6 +72,7 @@ namespace AuthApplication.Models
 
     public class RegisterModel
     {
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }

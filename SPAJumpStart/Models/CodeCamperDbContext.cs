@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using CodeCamper.Models;
 
 namespace CodeCamper
 {
@@ -27,5 +28,6 @@ namespace CodeCamper
         public DbSet<Room> Rooms { get; set; }
         public DbSet<TimeSlot> TimeSlots { get; set; }
         public DbSet<Track> Tracks { get; set; }
+
     }
 }

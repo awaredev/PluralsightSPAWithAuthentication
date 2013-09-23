@@ -15,7 +15,8 @@
         session: 'Session',
         room: 'Room',
         track: 'Track',
-        timeslot: 'TimeSlot'
+        timeslot: 'TimeSlot',
+
     };
 
     var model = {

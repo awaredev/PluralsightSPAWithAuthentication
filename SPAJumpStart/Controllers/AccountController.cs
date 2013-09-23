@@ -2,33 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Security;
+using CodeCamper.Controllers;
+using CodeCamper.Filters;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using AuthApplication.Filters;
-using AuthApplication.Models;
+using CodeCamper.Models;
 
-namespace AuthApplication.Controllers
+namespace CodeCamper.Controllers
 {
-    [Authorize]
-    [InitializeSimpleMembership]
-    public class AccountController : Controller
-    {
-        //
-        // POST: /Account/JsonLogin
 
-        [AllowAnonymous]
-        [HttpPost]
-        public JsonResult JsonLogin(LoginModel model, string returnUrl)
+    //MVC-AUTHENTICATION CODE
+    //The MVC.Authorize attribute does not work in MVC API apps, thus we use the Http namespace version
+    //Inherits APIController as this is a MVC API application (was inheriting Controller)
+    //Changed all methods to return JsonResults as MVC API sends data, not Views
+    [System.Web.Http.Authorize]
+    public class AccountController : ApiController
+    {
+
+        //New method so SPA can check authentication
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Mvc.HttpPost]
+        public JsonResult JsonIsAuthorized()
+        {
+            return new JsonResult { Data = new { Authorized = User.Identity.IsAuthenticated, Name = User.Identity.Name } };
+        }
+
+        [System.Web.Http.AllowAnonymous]
+        [System.Web.Mvc.HttpPost]
+        public JsonResult JsonLogin(LoginModel model)
         {
             if (ModelState.IsValid)
             {
                 if (WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    return Json(new { success = true, redirect = returnUrl });
+                    return new JsonResult { Data = new { success = true } };
                 }
                 else
                 {
@@ -37,28 +50,28 @@ namespace AuthApplication.Controllers
             }
 
             // If we got this far, something failed
-            return Json(new { errors = GetErrorsFromModelState() });
+            return new JsonResult { Data = new { errors = GetErrorsFromModelState() } };
         }
 
         //
         // POST: /Account/LogOff
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        [System.Web.Mvc.HttpPost]
+        public JsonResult JsonLogout()
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return new JsonResult { Data = new { success = true } };
         }
 
         //
         // POST: /Account/JsonRegister
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult JsonRegister(RegisterModel model, string returnUrl)
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Http.AllowAnonymous]
+        public JsonResult JsonRegister(RegisterModel model)
         {
+            //var model = new RegisterModel() { UserName = userName , Password = password, ConfirmPassword = confirmPassword};
+
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
@@ -67,10 +80,8 @@ namespace AuthApplication.Controllers
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
 
-                    //InitiateDatabaseForNewUser(model.UserName);
-
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return Json(new { success = true, redirect = returnUrl });
+                    return new JsonResult { Data = new { success = true} };
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -79,34 +90,14 @@ namespace AuthApplication.Controllers
             }
 
             // If we got this far, something failed
-            return Json(new { errors = GetErrorsFromModelState() });
+            return new JsonResult { Data = new { errors = GetErrorsFromModelState() } };
         }
-
-        /// <summary>
-        /// Initiate a new todo list for new user
-        /// </summary>
-        /// <param name="userName"></param>
-        //private static void InitiateDatabaseForNewUser(string userName)
-        //{
-        //    TodoItemContext db = new TodoItemContext();
-        //    TodoList todoList = new TodoList();
-        //    todoList.UserId = userName;
-        //    todoList.Title = "My Todo List #1";
-        //    todoList.Todos = new List<TodoItem>();
-        //    db.TodoLists.Add(todoList);
-        //    db.SaveChanges();
-
-        //    todoList.Todos.Add(new TodoItem() { Title = "Todo item #1", TodoListId = todoList.TodoListId, IsDone = false });
-        //    todoList.Todos.Add(new TodoItem() { Title = "Todo item #2", TodoListId = todoList.TodoListId, IsDone = false });
-        //    db.SaveChanges();
-        //}
 
         //
         // POST: /Account/Disassociate
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
+        [System.Web.Mvc.HttpPost]
+        public JsonResult Disassociate(string provider, string providerUserId)
         {
             string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
             ManageMessageId? message = null;
@@ -126,35 +117,33 @@ namespace AuthApplication.Controllers
                     }
                 }
             }
-
-            return RedirectToAction("Manage", new { Message = message });
+            return new JsonResult { Data = new { Message = message } };
         }
 
         //
         // GET: /Account/Manage
 
-        public ActionResult Manage(ManageMessageId? message)
+        public JsonResult Manage(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+            var statusMessage =
+                message == AccountController.ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == AccountController.ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == AccountController.ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : "";
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+            var hasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+
+            return new JsonResult { Data = new { Message = statusMessage, HasLocalPassword = hasLocalPassword } };
         }
 
         //
         // POST: /Account/Manage
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
+        [System.Web.Mvc.HttpPost]
+        public JsonResult Manage(LocalPasswordModel model)
         {
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.HasLocalPassword = hasLocalAccount;
-            ViewBag.ReturnUrl = Url.Action("Manage");
+            //ViewBag.HasLocalPassword = hasLocalAccount;
+            //ViewBag.ReturnUrl = Url.Action("Manage");
             if (hasLocalAccount)
             {
                 if (ModelState.IsValid)
@@ -172,7 +161,7 @@ namespace AuthApplication.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        return new JsonResult{Data = new { Message = AccountController.ManageMessageId.ChangePasswordSuccess }};
                     }
                     else
                     {
@@ -184,7 +173,7 @@ namespace AuthApplication.Controllers
             {
                 // User does not have a local password so remove any validation errors caused by a missing
                 // OldPassword field
-                ModelState state = ModelState["OldPassword"];
+                ModelState state = null;//ModelState["OldPassword"];
                 if (state != null)
                 {
                     state.Errors.Clear();
@@ -195,7 +184,7 @@ namespace AuthApplication.Controllers
                     try
                     {
                         WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+                        return new JsonResult { Data = new { Message = ManageMessageId.SetPasswordSuccess } };
                     }
                     catch (Exception e)
                     {
@@ -205,67 +194,66 @@ namespace AuthApplication.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return new JsonResult {Data = model};
         }
 
         //
         // POST: /Account/ExternalLogin
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Http.AllowAnonymous]
+        public JsonResult ExternalLogin(string provider, string returnUrl)
         {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            //Not Implemented- 
+            return new JsonResult { Data = new ExternalLoginResult(provider, Url.Route("ExternalLoginCallback", new { ReturnUrl = returnUrl })) };
         }
 
         //
         // GET: /Account/ExternalLoginCallback
 
-        [AllowAnonymous]
-        public ActionResult ExternalLoginCallback(string returnUrl)
+        [System.Web.Http.AllowAnonymous]
+        public JsonResult ExternalLoginCallback(string returnUrl)
         {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Route("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
             if (!result.IsSuccessful)
             {
-                return RedirectToAction("ExternalLoginFailure");
+                return ExternalLoginFailure();
             }
 
             if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
             {
-                return RedirectToLocal(returnUrl);
+                return new JsonResult { Data = new { success = true} };
             }
 
             if (User.Identity.IsAuthenticated)
             {
                 // If the current user is logged in add the new account
                 OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
-                return RedirectToLocal(returnUrl);
+                return new JsonResult { Data = new { success = true } };
             }
             else
             {
                 // User is new, ask for their desired membership name
                 string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+                //ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
+                //ViewBag.ReturnUrl = returnUrl;
+                return ExternalLoginConfirmation( new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData },"");
             }
         }
 
         //
         // POST: /Account/ExternalLoginConfirmation
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
+        [System.Web.Mvc.HttpPost]
+        [System.Web.Http.AllowAnonymous]
+        public JsonResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
         {
             string provider = null;
             string providerUserId = null;
 
             if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
             {
-                return RedirectToAction("Manage");
+                return new JsonResult { Data = new { success = true} };
             }
 
             if (ModelState.IsValid)
@@ -286,7 +274,7 @@ namespace AuthApplication.Controllers
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
                         OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
-                        return RedirectToLocal(returnUrl);
+                        return new JsonResult { Data = new { success = true} };
                     }
                     else
                     {
@@ -295,30 +283,30 @@ namespace AuthApplication.Controllers
                 }
             }
 
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            var providerDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
+            //ViewBag.ReturnUrl = returnUrl;
+            return new JsonResult { Data = new { ProviderDisplayName = providerDisplayName} };
         }
 
         //
         // GET: /Account/ExternalLoginFailure
 
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
+        [System.Web.Http.AllowAnonymous]
+        public JsonResult ExternalLoginFailure()
         {
-            return View();
+            return new JsonResult { Data = new { success = false } };
         }
 
-        [AllowAnonymous]
+        [System.Web.Http.AllowAnonymous]
         [ChildActionOnly]
-        public ActionResult ExternalLoginsList(string returnUrl)
+        public JsonResult ExternalLoginsList(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
+            //ViewBag.ReturnUrl = returnUrl;
+            return new JsonResult {Data = new {externalLogins = OAuthWebSecurity.RegisteredClientData}};
         }
 
         [ChildActionOnly]
-        public ActionResult RemoveExternalLogins()
+        public JsonResult RemoveExternalLogins()
         {
             ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
             List<ExternalLogin> externalLogins = new List<ExternalLogin>();
@@ -334,23 +322,11 @@ namespace AuthApplication.Controllers
                 });
             }
 
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+            return new JsonResult { Data = externalLogins };
         }
 
         #region Helpers
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
+       
         public enum ManageMessageId
         {
             ChangePasswordSuccess,

@@ -1,4 +1,4 @@
-define(['durandal/app', 'services/datacontext', 'durandal/plugins/router'],
+ define(['durandal/app', 'services/datacontext', 'durandal/plugins/router'],
     function (app, datacontext, router) {
         var isSaving = ko.observable(false),
             rooms = ko.observableArray(),

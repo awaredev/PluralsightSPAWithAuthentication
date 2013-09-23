@@ -1,0 +1,17 @@
+﻿MVC Authentication Notes:
+
+
+This project was built to place MVC style Authentication in SPA Jumpstart.
+
+Comments starting with '//MVC-AUTHENTICATION CODE' have been added to any original SPA Jumpstart files that were modified.
+
+
+The following files were added:
+
+App/viewmodels/login.js
+App/viewmodels/logout.js
+App/viewmodels/register.js
+
+App/view/login.html
+App/view/logout.html
+App/view/register.html

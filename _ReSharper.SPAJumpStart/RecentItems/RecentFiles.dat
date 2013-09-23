@@ -1,41 +1,58 @@
 ﻿<RecentFiles>
   <RecentFiles>
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App_Start/f:BreezeWebApiConfig.cs" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App_Start/f:BundleConfig.cs" caret="86" fromTop="5" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App_Start/f:WebApiConfig.cs" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Models/f:Attendance.cs" caret="0" fromTop="0" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:Controllers/f:HomeController.cs" caret="0" fromTop="0" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:Controllers/f:TodoController.cs" caret="266" fromTop="11" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Models/f:SessionConfiguration.cs" caret="86" fromTop="4" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Scripts/f:q.js" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Scripts/f:_references.js" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:sessiondetail.html" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Scripts/f:toastr.js" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Scripts/f:sammy-0.7.4.js" caret="0" fromTop="0" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:Views/d:Home/f:_Login.cshtml" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:_splash.cshtml" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:index.cshtml" caret="788" fromTop="21" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/f:Web.config" caret="0" fromTop="0" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/f:Global.asax.cs" caret="671" fromTop="15" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:AccountController.cs" caret="13517" fromTop="232" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:Global.asax.cs" caret="547" fromTop="14" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:Web.config" caret="0" fromTop="0" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:App_Start/f:AuthConfig.cs" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:shell.html" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:sessions.js" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:BreezeController.cs" caret="13257" fromTop="16" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:speakers.html" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:nav.html" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/f:main.js" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/f:config.js" caret="347" fromTop="13" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:speakers.js" caret="0" fromTop="0" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:services/f:model.js" caret="0" fromTop="0" />
+    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:Filters/f:InitializeSimpleMembershipAttribute.cs" caret="0" fromTop="0" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Filters/f:InitializeSimpleMembershipAttribute.cs" caret="1700" fromTop="40" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:speakers.js" caret="300" fromTop="8" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Scripts/f:q.js" caret="36174" fromTop="27" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:sessiondetail.js" caret="2115" fromTop="14" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:sessionadd.js" caret="1355" fromTop="14" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/f:main.js" caret="1027" fromTop="14" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:register.html" caret="1033" fromTop="22" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Scripts/f:knockout-2.2.1.debug.js" caret="47788" fromTop="14" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:durandal/d:plugins/f:router.js" caret="6212" fromTop="14" />
+    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:Controllers/f:AccountController.cs" caret="0" fromTop="0" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:BreezeController.cs" caret="920" fromTop="4" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:logout.html" caret="97" fromTop="1" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:sessions.js" caret="151" fromTop="4" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:login.html" caret="629" fromTop="16" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:sessionadd.html" caret="429" fromTop="7" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:logout.js" caret="386" fromTop="11" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:AccountController.cs" caret="452" fromTop="14" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:register.js" caret="575" fromTop="16" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:login.js" caret="608" fromTop="15" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/f:config.js" caret="3190" fromTop="104" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:shell.js" caret="528" fromTop="15" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:services/f:logger.js" caret="109" fromTop="4" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:services/f:datacontext.js" caret="208" fromTop="5" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:services/f:model.js" caret="536" fromTop="0" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:nav.html" caret="1448" fromTop="22" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:shell.html" caret="237" fromTop="7" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App_Start/f:AuthConfig.cs" caret="476" fromTop="15" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:Web.config" caret="1162" fromTop="16" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:MVC_AuthenticationNotes.txt" caret="404" fromTop="16" />
   </RecentFiles>
   <RecentEdits>
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:AccountController.cs" caret="4453" fromTop="10" />
-    <File id="3F3211F3-A803-418F-AA9B-C201BF61CAFB/d:Views/d:Home/f:Index.cshtml" caret="2102" fromTop="11" />
     <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:index.cshtml" caret="788" fromTop="21" />
     <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:Global.asax.cs" caret="547" fromTop="14" />
-    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:BreezeController.cs" caret="13257" fromTop="16" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:sessionadd.js" caret="1" fromTop="0" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Models/f:AccountModels.cs" caret="2156" fromTop="5" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Models/f:CodeCamperDbContext.cs" caret="1100" fromTop="18" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:services/f:model.js" caret="536" fromTop="18" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:register.html" caret="1025" fromTop="22" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Filters/f:InitializeSimpleMembershipAttribute.cs" caret="1632" fromTop="19" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:register.js" caret="470" fromTop="9" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:login.html" caret="338" fromTop="8" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:login.js" caret="707" fromTop="24" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:BreezeController.cs" caret="920" fromTop="4" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:logout.html" caret="97" fromTop="1" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:logout.js" caret="260" fromTop="6" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:Controllers/f:AccountController.cs" caret="2113" fromTop="16" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/f:config.js" caret="3190" fromTop="20" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:viewmodels/f:shell.js" caret="528" fromTop="15" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:services/f:datacontext.js" caret="208" fromTop="5" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App/d:views/f:nav.html" caret="1448" fromTop="22" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/d:App_Start/f:AuthConfig.cs" caret="476" fromTop="15" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:Web.config" caret="1162" fromTop="16" />
+    <File id="6B1E172B-2047-410C-8C0F-A5E3EF44435C/f:MVC_AuthenticationNotes.txt" caret="404" fromTop="16" />
   </RecentEdits>
 </RecentFiles>

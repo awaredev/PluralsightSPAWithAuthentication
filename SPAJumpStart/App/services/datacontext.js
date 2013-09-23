@@ -3,8 +3,9 @@
     'services/model',
     'config',
     'services/logger',
+    'durandal/plugins/router', //MVC-AUTHENTICATION CODE = Added Router for Login Route Re-Initialisation after login
     'services/breeze.partial-entities'],
-    function (system, model, config, logger, partialMapper) {
+    function (system, model, config, logger, router, partialMapper) {
         var EntityQuery = breeze.EntityQuery;
         var manager = configureBreezeManager();
         var orderBy = model.orderBy;
@@ -124,10 +125,17 @@
         };
 
         var primeData = function () {
-            var promise = Q.all([
-                getLookups(),
-                getSpeakerPartials(null, true)])
+            var promise ;
+            //Promise is declared, the assigned by Q.ALL once, otherwise, we queue up all data
+            if (isAuthorized()) {
+                promise = Q.all([
+                getLookups(), getSpeakerPartials(null, true)])
                 .then(applyValidators);
+            }else{
+                promise = Q.all([
+                getLookups()])//REMOVED getspeakerspartial as with Authorization in place this will fail
+                .then(applyValidators);  
+            }
 
             return promise.then(success);
             
@@ -150,12 +158,177 @@
         var createSession = function() {
             return manager.createEntity(entityNames.session);
         };
-
+       
         var hasChanges = ko.observable(false);
 
         manager.hasChangesChanged.subscribe(function(eventArgs) {
             hasChanges(eventArgs.hasChanges);
         });
+
+        //MVC-AUTHENTICATION CODE
+        //Added functions for authentication to datacontext as this is where
+        //code for calling the server is located
+        
+        //Login Function
+        var login = function (credentials) {
+            var model = {
+                UserName: credentials.UserName,
+                Password: credentials.Password,
+                RememberMe: credentials.RememberMe
+            };
+
+            var resp;
+
+            $.ajax({
+                async: false,
+                url: '/breeze/Account/JsonLogin',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(model),
+                dataType: 'Json',
+                success: function(data) {
+                    if (data.data.success != null && data.data.success == true) {
+                        //We're Logged in!!!!
+                        postLoginConfig();
+                        resp = { success: true };
+                    } else {
+                        //Return Error details
+                        resp = { success: false, message: data.data.errors };
+                    }
+                },
+                error: function (error) {
+                    var msg = 'Error logging in user. ' + error.message;
+                    logError(msg, error);
+                    throw error;
+                }
+            });
+
+            return resp;
+        };
+        
+        //Logout Function
+        var logout = function (credentials) {
+            
+            var resp;
+
+            $.ajax({
+                async: false,
+                url: '/breeze/Account/JsonLogout',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'Json',
+                success: function (data) {
+                    if (data.data.success != null && data.data.success == true) {
+                        //We're Logged out!!!!
+                        resp = { success: true };
+                    } else {
+                        //Return Error details
+                        resp = { success: false, message: data.data.errors };
+                    }
+                },
+                error: function (error) {
+                    var msg = 'Error logging out user. ' + error.message;
+                    logError(msg, error);
+                    throw error;
+                }
+            });
+
+            return resp;
+        };
+
+        //Registration Function
+        var register = function (userRegistration) {
+
+            var model = {
+                "UserName": userRegistration.UserName,
+                "Password": userRegistration.Password,
+                "ConfirmPassword": userRegistration.ConfirmPassword
+            };
+
+            var resp;
+
+            $.ajax({
+                async: false,
+                url: '/breeze/Account/JsonRegister',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(model),
+                dataType: 'Json',
+                success: function(data) {
+                    if (data.data.success != null && data.data.success == true) {
+                        //We're Logged in!!!!
+                        postLoginConfig();
+                        resp = { success: true };
+                    } else {
+                        //Return error details
+                        resp = { success: false, message: data.data.errors };
+                    }
+                },
+                error: function (error) {
+                    var msg = 'Error registering user. ' + error.message;
+                    logError(msg, error);
+                    throw error;
+            }
+            });
+            return resp;
+
+        };
+
+        //This is to fix up missing elements when Logged In
+        //We need the Routes to be made vissible
+        var postLoginConfig = function () {
+            if (!datacontext.navMapped)
+            {
+                if(datacontext.userName == '')
+                    {isAuthorized();} //Call to get username
+                //Show all routes
+                router.map(config.routes);
+                //Remove Login/Register
+                router.allRoutes.remove(config.loginNav);
+                router.allRoutes.remove(config.registerNav);
+                //Now add a visible Logout route
+                router.map({
+                    url: 'logout',
+                    moduleId: 'viewmodels/logout',
+                    name: 'Logout',
+                    visible: false,
+                    caption: 'Logout ' + datacontext.userName,
+                    settings: { account: true, caption: '<i class="icon-plus"></i> Logout' }
+                });
+                datacontext.navMapped = true;
+            }
+            getSpeakerPartials(null, true); //Call this as we couldn't when not authenticated
+        };
+
+        //Function checks cookie against server to see if User is Authenticated
+        //Keeps SPA from doing calls that require authentication, and limits visible routes
+        //in the navigation header
+        var isAuthorized = function() {
+
+            var resp;
+            $.ajax({
+                async: false,
+                url: '/breeze/Account/JsonIsAuthorized',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'Json',
+                success: function(data) {
+                    resp = data.data.authorized;
+                    if (resp) {
+                        //Set Username if Authenticated
+                        datacontext.userName = data.data.name;
+                    }
+                },
+                error: function (error) {
+                    var msg = 'Error authenticating user. ' + error.message;
+                    logError(msg, error);
+                    throw error;
+                }
+            });
+            return resp;
+        };
+        //End authentication functions
+        //Rest of code is not MVC-Authentication specific
 
         var datacontext = {
             createSession: createSession,
@@ -165,7 +338,16 @@
             getSessionById: getSessionById,
             primeData: primeData,
             cancelChanges: cancelChanges,
-            saveChanges: saveChanges
+            saveChanges: saveChanges,
+            //MVC-AUTHENTICATION CODE
+            //Added these for authorization 
+            login: login,
+            logout: logout,
+            register: register,
+            isAuthorized: isAuthorized,
+            userName: '',
+            //This Last one is for making sure that once logged in, the Nav won't get added to again
+            navMapped : false
         };
 
         return datacontext;

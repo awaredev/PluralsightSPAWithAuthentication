@@ -1,0 +1,28 @@
+﻿<section id="session-view" class="view">
+    <h3 class="page-title" data-bind="text: title"></h3>
+    <div class="button-bar">
+        
+        <button class="btn btn-info"
+                data-bind="click: register"><i class="icon-user"></i> Register</button>
+        
+    </div>
+    <div>    
+        <div class="titleblock">
+            <label for="UserName">User Name</label>
+            <input id="UserName" data-bind="value: UserName" 
+                   placeholder="user name"/>
+        </div>
+        <div class="titleblock">
+            <label for="Password">Password</label>
+            <input type="password" id="Password" data-bind="value: Password" 
+                   placeholder="password"/>
+        </div>
+        <div class="titleblock">
+            <label for="ConfirmPassword">Confirm Password</label>
+            <input type="password" id="ConfirmPassword" data-bind="value: ConfirmPassword" 
+                   placeholder="confirm password"/>
+        </div>
+    </div>
+    <div data-bind="text: Message"></div>
+    
+</section>
